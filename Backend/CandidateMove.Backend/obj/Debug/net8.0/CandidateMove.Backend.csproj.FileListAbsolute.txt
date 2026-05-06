@@ -126,3 +126,7 @@ C:\Users\basev\Bohdana\CandidateMove\Backend\CandidateMove.Backend\obj\Debug\net
 C:\Users\basev\Bohdana\CandidateMove\Backend\CandidateMove.Backend\obj\Debug\net8.0\CandidateMove.Backend.pdb
 C:\Users\basev\Bohdana\CandidateMove\Backend\CandidateMove.Backend\obj\Debug\net8.0\CandidateMove.Backend.genruntimeconfig.cache
 C:\Users\basev\Bohdana\CandidateMove\Backend\CandidateMove.Backend\obj\Debug\net8.0\ref\CandidateMove.Backend.dll
+C:\Users\basev\Bohdana\CandidateMove\Backend\CandidateMove.Backend\obj\Debug\net8.0\CandidateMove.Backend.sourcelink.json
+C:\Users\basev\Bohdana\CandidateMove\Backend\CandidateMove.Backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\basev\Bohdana\CandidateMove\Backend\CandidateMove.Backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\basev\Bohdana\CandidateMove\Backend\CandidateMove.Backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
