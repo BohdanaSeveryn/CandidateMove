@@ -43,6 +43,31 @@ namespace CandidateMove.Backend.Controllers
 
             return Ok(new { user.Id, user.Name, user.Email });
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDto dto)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
+            if (user == null)
+            {
+                return Unauthorized("Invalid email or password.");
+            }
+
+            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
+            if (result == PasswordVerificationResult.Failed)
+            {
+                return Unauthorized("Invalid email or password.");
+            }
+
+            // In a real application, you would generate a JWT token here.
+            return Ok(new {
+                Message = "Login successful",
+                user.Id, 
+                user.Name, 
+                user.Email 
+            });
+        }
+        
     }
 
 }
