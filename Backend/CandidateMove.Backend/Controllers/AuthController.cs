@@ -15,10 +15,13 @@ namespace CandidateMove.Backend.Controllers
     {
         private readonly AppDbContext _context;
         private readonly PasswordHasher<User> _passwordHasher;
-        public AuthController(AppDbContext context)
+        private readonly TokenService _tokenService;
+
+        public AuthController(AppDbContext context, TokenService tokenService)
         {
             _context = context;
             _passwordHasher = new PasswordHasher<User>();
+            _tokenService = tokenService;
         }
 
         [HttpPost("register")]
@@ -59,15 +62,14 @@ namespace CandidateMove.Backend.Controllers
                 return Unauthorized("Invalid email or password.");
             }
 
-            // In a real application, you would generate a JWT token here.
+            var token = _tokenService.CreateToken(user);
             return Ok(new {
-                Message = "Login successful",
-                user.Id, 
-                user.Name, 
-                user.Email 
+                Token = token,
+                UserId = user.Id,
+                Email = user.Email 
             });
         }
-        
+
     }
 
 }
