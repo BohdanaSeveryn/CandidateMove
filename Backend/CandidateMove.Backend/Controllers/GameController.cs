@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using CandidateMove.Backend.Data;
 using CandidateMove.Backend.Models.Game;
 using CandidateMove.Backend.Models;
+using System.Text.Json;
 
 namespace CandidateMove.Backend.Controllers;
 
@@ -34,7 +35,10 @@ public class GameController : ControllerBase
             CreatedAt = DateTime.UtcNow,
             CurrentPlayerId = userId,
             Player1TimeSeconds = 900, // 15 minutes
-            Player2TimeSeconds = 900
+            Player2TimeSeconds = 900,
+            BoardSize = 8,
+            Board = JsonSerializer.Serialize(CreateStartingBoard(8)),
+            IsLocked = false
         };
 
         _db.Games.Add(game);
@@ -103,36 +107,32 @@ public class GameController : ControllerBase
         {
             board[row] = new int[size];
 
-            for (int row = 0; row < size; row++)
+            for (int col = 0; col < size; col++)
             {
-                board[row] = new int[size];
-                for (int col = 0; col < size; col++)
+                bool isDarkSquare = (row + col) % 2 == 1;
+                if (isDarkSquare)
                 {
-                    bool isDarkSquare = (row + col) % 2 == 1;
-                    if (isDarkSquare)
-                    {
-                        board[row][col] = 0; 
-                        continue;
-                    }
-                    int rowOfPieces = (size == 8 ? 3 : 4);
-                    if (row < rowOfPieces)
-                    {
-                        board[row][col] = 1; // Player 1 pieces
-                    }
-                    else if (row >= size - rowOfPieces)
-                    {
-                        board[row][col] = 2; // Player 2 pieces
-                    }
-                    else if (row >= size - rowOfPieces)
-                    {
-                        board[row][col] = 2; // Player 2 pieces
-                    }
-                    else
-                    {
-                        board[row][col] = 0; // Empty square
-                    }
+                    board[row][col] = 0; 
+                    continue;
                 }
-            }
+                int rowOfPieces = (size == 8 ? 3 : 4);
+                if (row < rowOfPieces)
+                {
+                    board[row][col] = 1; // Player 1 pieces
+                }
+                else if (row >= size - rowOfPieces)
+                {
+                    board[row][col] = 2; // Player 2 pieces
+                }
+                else if (row >= size - rowOfPieces)
+                {
+                    board[row][col] = 2; // Player 2 pieces
+                }
+                else
+                {
+                    board[row][col] = 0; // Empty square
+                }
+            }  
         }
         return board;
     }

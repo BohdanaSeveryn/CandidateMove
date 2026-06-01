@@ -1,6 +1,9 @@
 using CandidateMove.Backend.Models.Game;
 public class Game
 {
+    public int BoardSize { get; set; }
+    public string Board { get; set; }
+
     public Guid Id { get; set; }
 
     public Guid Player1Id { get; set; }
@@ -19,4 +22,5 @@ public class Game
     public DateTime? LastMoveAt { get; set; }
 
     public List<Move> Moves { get; set; } = new List<Move>();
+    public bool IsLocked { get; set; }
 }
