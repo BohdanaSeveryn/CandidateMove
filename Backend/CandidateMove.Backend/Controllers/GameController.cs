@@ -124,10 +124,6 @@ public class GameController : ControllerBase
                 {
                     board[row][col] = 2; // Player 2 pieces
                 }
-                else if (row >= size - rowOfPieces)
-                {
-                    board[row][col] = 2; // Player 2 pieces
-                }
                 else
                 {
                     board[row][col] = 0; // Empty square
