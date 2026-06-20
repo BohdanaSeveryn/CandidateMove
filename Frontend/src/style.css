@@ -1,0 +1,30 @@
+.board {
+  display: grid;
+  grid-template: repeat(8, 40px) / repeat(8, 40px);
+  gap: 0;
+}
+
+.cell {
+  border: 1px solid #ccc;
+}
+.cell:nth-child(odd) {
+  background-color: #eee;
+}
+.cell:nth-child(even) {
+  background-color: #f7f6d8;
+}
+
+.piece {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.piece.black {
+  background: black;
+}
+
+.piece.white {
+  background: white;
+  border: 2px solid #333;
+}
