@@ -1,55 +1,84 @@
 import { useEffect, useState } from "react"
-import Board from "../components/Board"
+import { useTranslation } from "react-i18next"
 
-type PieceColor = "black" | "white"
-type BoardMatrix = (0 | "black" | "white")[][]
+export default function TrainingBoard({ onLogout }: { onLogout: () => void }) {
+  const { t } = useTranslation()
 
-export default function TrainingBoard() {
+  const [board, setBoard] = useState<number[][] | null>(null)
   const [boardId, setBoardId] = useState<string | null>(null)
-  const [board, setBoard] = useState<BoardMatrix>([])
-  const [selectedPiece, setSelectedPiece] = useState<PieceColor | null>(null)
 
   useEffect(() => {
     async function createBoard() {
       const token = localStorage.getItem("token")
 
-      const response = await fetch("/api/training-board/create", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/training-board/create`,
+        {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
         }
-      })
+      )
+
+      if (!response.ok) {
+        console.error("Failed to create board")
+        return
+      }
 
       const data = await response.json()
+      const parsedBoard = JSON.parse(data.board)
 
+      setBoard(parsedBoard)
       setBoardId(data.id)
-      setBoard(JSON.parse(data.board))
     }
 
     createBoard()
   }, [])
 
+  if (!board) {
+    return <div>{t("loadingBoard")}</div>
+  }
+
   return (
     <div>
-      <h1>Training Board</h1>
+      <button onClick={onLogout}>{t("logout")}</button>
 
-      <div style={{ display: "flex", gap: "20px", marginBottom: "20px" }}>
-        <div
-          className="piece black"
-          onClick={() => setSelectedPiece("black")}
-        />
-        <div
-          className="piece white"
-          onClick={() => setSelectedPiece("white")}
-        />
+      <h2>{t("trainingBoard")}</h2>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: `repeat(${board.length}, 40px)`
+        }}
+      >
+        {board.map((row, rowIndex) =>
+          row.map((cell, colIndex) => {
+            const isDark = (rowIndex + colIndex) % 2 === 1
+
+            return (
+              <div
+                key={`${rowIndex}-${colIndex}`}
+                style={{
+                  width: 40,
+                  height: 40,
+                  border: "1px solid black",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: isDark ? "#b58863" : "#f0d9b5",
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  cursor: "pointer"
+                }}
+              >
+                {cell !== 0 ? cell : ""}
+              </div>
+            )
+          })
+        )}
       </div>
-
-      <Board
-        board={board}
-        setBoard={setBoard}
-        boardId={boardId}
-        selectedPiece={selectedPiece}
-      />
     </div>
   )
 }
