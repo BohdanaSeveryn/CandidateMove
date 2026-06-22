@@ -1,30 +1,14 @@
-.board {
-  display: grid;
-  grid-template: repeat(8, 40px) / repeat(8, 40px);
-  gap: 0;
+body[data-theme="light"] {
+  --bg: #ffffff;
+  --text: #000000;
 }
 
-.cell {
-  border: 1px solid #ccc;
-}
-.cell:nth-child(odd) {
-  background-color: #eee;
-}
-.cell:nth-child(even) {
-  background-color: #f7f6d8;
+body[data-theme="dark"] {
+  --bg: #1e1e1e;
+  --text: #ffffff;
 }
 
-.piece {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-}
-
-.piece.black {
-  background: black;
-}
-
-.piece.white {
-  background: white;
-  border: 2px solid #333;
+body {
+  background: var(--bg);
+  color: var(--text);
 }

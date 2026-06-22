@@ -33,7 +33,6 @@ export default function Board({
 
     const data = await response.json()
 
-    // бекенд повертає board як строку → парсимо
     const parsed = JSON.parse(data.board.board)
     setBoard(parsed)
   }
